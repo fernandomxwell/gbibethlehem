@@ -133,9 +133,12 @@
 
     <script>
         // Navbar: transparent → white on scroll
-        const navbar   = document.getElementById('navbar');
-        const brand    = document.getElementById('nav-brand');
-        const navLinks = document.querySelectorAll('.nav-link');
+        const navbar    = document.getElementById('navbar');
+        const brand     = document.getElementById('nav-brand');
+        const navLinks  = document.querySelectorAll('.nav-link');
+        const menuBtn   = document.getElementById('menu-btn');
+        const menuIcon  = document.getElementById('menu-icon');
+        const mobileMenu = document.getElementById('mobile-menu');
 
         function updateNavbar() {
             const scrolled = window.scrollY > 60;
@@ -148,6 +151,8 @@
                     l.classList.remove('text-white/80', 'hover:text-white', 'hover:bg-white/10');
                     l.classList.add('text-slate-600', 'hover:text-slate-900', 'hover:bg-slate-100');
                 });
+                menuBtn.classList.remove('text-white/80', 'hover:text-white', 'hover:bg-white/10');
+                menuBtn.classList.add('text-slate-600', 'hover:text-slate-900', 'hover:bg-slate-100');
             } else {
                 navbar.classList.remove('nav-scrolled');
                 navbar.style.background = 'transparent';
@@ -157,15 +162,14 @@
                     l.classList.add('text-white/80', 'hover:text-white', 'hover:bg-white/10');
                     l.classList.remove('text-slate-600', 'hover:text-slate-900', 'hover:bg-slate-100');
                 });
+                menuBtn.classList.add('text-white/80', 'hover:text-white', 'hover:bg-white/10');
+                menuBtn.classList.remove('text-slate-600', 'hover:text-slate-900', 'hover:bg-slate-100');
             }
         }
         window.addEventListener('scroll', updateNavbar, { passive: true });
         updateNavbar();
 
         // Mobile menu toggle
-        const menuBtn   = document.getElementById('menu-btn');
-        const menuIcon  = document.getElementById('menu-icon');
-        const mobileMenu = document.getElementById('mobile-menu');
         menuBtn.addEventListener('click', () => {
             const open = mobileMenu.classList.toggle('hidden');
             menuIcon.className = open
