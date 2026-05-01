@@ -1,7 +1,7 @@
 # Stage 1: Frontend assets
 FROM node:22-alpine AS frontend
 WORKDIR /app
-COPY package.json package-lock.json* ./
+COPY package.json package-lock.json ./
 RUN npm ci
 COPY vite.config.js ./
 COPY resources/ ./resources/
