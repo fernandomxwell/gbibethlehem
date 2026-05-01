@@ -12,10 +12,11 @@ return [
     'email' => 'gbibethlehem@gmail.com',
 
     'nav' => [
-        ['href' => '#beranda', 'label' => 'Beranda'],
-        ['href' => '#ibadah',  'label' => 'Jadwal Ibadah'],
-        ['href' => '#kontak',  'label' => 'Hubungi Kami'],
-        ['href' => '#lokasi',  'label' => 'Lokasi'],
+        ['href' => '#beranda',  'label' => 'Beranda'],
+        ['href' => '#kegiatan', 'label' => 'Kegiatan'],
+        ['href' => '#ibadah',   'label' => 'Jadwal Mendatang'],
+        ['href' => '#kontak',   'label' => 'Hubungi Kami'],
+        ['href' => '#lokasi',   'label' => 'Lokasi'],
     ],
 
     'social' => [

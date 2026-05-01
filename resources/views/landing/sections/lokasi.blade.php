@@ -2,29 +2,17 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div class="reveal">
-                <div class="relative rounded-2xl overflow-hidden shadow-xl bg-slate-200 aspect-[4/3] flex items-center justify-center">
-                    <div class="absolute inset-0"
-                         style="background-image: linear-gradient(#cbd5e1 1px, transparent 1px), linear-gradient(90deg, #cbd5e1 1px, transparent 1px); background-size: 40px 40px; background-color: #e2e8f0;">
-                    </div>
-                    <div class="absolute inset-0">
-                        <div class="absolute top-1/3 inset-x-0 h-6 bg-white/60"></div>
-                        <div class="absolute left-1/3 inset-y-0 w-5 bg-white/60"></div>
-                        <div class="absolute top-2/3 inset-x-0 h-4 bg-white/40"></div>
-                        <div class="absolute left-2/3 inset-y-0 w-3 bg-white/40"></div>
-                    </div>
-                    <div class="relative z-10 flex flex-col items-center">
-                        <div class="w-16 h-16 bg-primary-600 rounded-full shadow-2xl flex items-center justify-center border-4 border-white">
-                            <i class="fa-solid fa-church text-white text-2xl"></i>
-                        </div>
-                        <div class="mt-2 bg-white shadow-lg rounded-lg px-4 py-2 text-center">
-                            <p class="font-bold text-slate-800 text-sm">{{ config('app.name') }}</p>
-                            <p class="text-slate-400 text-xs">Lokasi gereja</p>
-                        </div>
-                        <div class="w-3 h-3 bg-primary-600 rotate-45 -mt-1.5 shadow-sm"></div>
-                    </div>
-                    <div class="absolute bottom-3 right-3 bg-white/80 backdrop-blur-sm rounded-lg px-3 py-1.5 text-xs text-slate-400 font-medium">
-                        <i class="fa-brands fa-google mr-1"></i>Google Maps (segera hadir)
-                    </div>
+                <div class="relative rounded-2xl overflow-hidden shadow-xl aspect-[4/3]">
+                    <iframe
+                        src="https://maps.google.com/maps?q=-6.1387024,106.7971735&z=17&output=embed&hl=id"
+                        width="100%"
+                        height="100%"
+                        style="border:0; position:absolute; inset:0;"
+                        allowfullscreen
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Lokasi {{ config('app.name') }}">
+                    </iframe>
                 </div>
             </div>
 

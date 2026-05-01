@@ -55,7 +55,9 @@
 
     <style>
         .hero-bg {
-            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 55%, #4338ca 100%);
+            background:
+                linear-gradient(135deg, rgba(30,27,75,0.82) 0%, rgba(49,46,129,0.75) 55%, rgba(67,56,202,0.68) 100%),
+                url('https://images.unsplash.com/photo-1600288480699-0b0d8a456dd8?w=1920&q=80') center/cover no-repeat;
             position: relative;
             overflow: hidden;
         }
@@ -63,7 +65,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.07) 1px, transparent 0);
+            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
             background-size: 36px 36px;
         }
         .orb {

@@ -1,0 +1,53 @@
+# Stage 1: Frontend assets
+FROM node:22-alpine AS frontend
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm ci --prefer-offline
+COPY vite.config.js ./
+COPY resources/ ./resources/
+RUN npm run build
+
+# Stage 2: Composer dependencies
+FROM php:8.4-alpine AS vendor
+WORKDIR /app
+RUN apk add --no-cache git unzip \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY composer.json composer.lock ./
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
+
+# Stage 3: Final production image
+FROM php:8.4-alpine
+WORKDIR /var/www/html
+
+RUN apk add --no-cache libpng-dev libzip-dev icu-dev oniguruma-dev \
+    && curl -sSL https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions \
+        -o /usr/local/bin/install-php-extensions \
+    && chmod +x /usr/local/bin/install-php-extensions \
+    && install-php-extensions pdo_mysql pdo_sqlite mbstring zip exif pcntl bcmath gd intl opcache redis swoole
+
+# Reuse composer binary from Stage 2 (avoid downloading twice)
+COPY --from=vendor /usr/local/bin/composer /usr/local/bin/composer
+
+# Copy vendor from Stage 2
+COPY --chown=www-data:www-data --from=vendor /app/vendor ./vendor
+
+# Copy application code (vendor excluded via .dockerignore)
+COPY --chown=www-data:www-data . .
+
+# Overwrite with freshly built frontend assets from Stage 1
+COPY --chown=www-data:www-data --from=frontend /app/public/build ./public/build
+
+# Generate optimized classmap now that all app files are present
+RUN composer dump-autoload --optimize --no-dev --classmap-authoritative --no-scripts \
+    && chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
+
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+EXPOSE 8000
+
+USER www-data
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["php", "artisan", "octane:start", "--server=swoole", "--host=0.0.0.0", "--port=8000"]
