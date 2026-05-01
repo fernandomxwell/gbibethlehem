@@ -35,6 +35,7 @@
                 $activity = $item['activity'];
                 $date     = $item['date'];
 
+                $icons = ['fa-church', 'fa-child-reaching', 'fa-person-praying', 'fa-person-dress', 'fa-hands-holding-child', 'fa-users'];
                 $colorSets = [
                     ['bg-primary-400', 'bg-primary-50',  'text-primary-600',  'bg-primary-100 text-primary-700'],
                     ['bg-amber-400',   'bg-amber-50',    'text-amber-600',    'bg-amber-100 text-amber-700'],
@@ -43,7 +44,8 @@
                     ['bg-blue-400',    'bg-blue-50',     'text-blue-600',     'bg-blue-100 text-blue-700'],
                     ['bg-purple-400',  'bg-purple-50',   'text-purple-600',   'bg-purple-100 text-purple-700'],
                 ];
-                [$bar, $iconBg, $iconColor, $badgeCls] = $colorSets[$i % count($colorSets)];
+                [$bar, $iconBg, $iconColor, $badgeCls] = $colorSets[$activity->id % count($colorSets)];
+                $icon = $icons[$activity->id % count($icons)];
 
                 $daysAway = (int) now()->startOfDay()->diffInDays($date->copy()->startOfDay(), false);
                 $countdownLabel = match(true) {
@@ -77,7 +79,7 @@
                     <div class="border-t border-slate-100 pt-3">
                         <div class="flex items-center gap-2 mb-1.5">
                             <div class="w-7 h-7 rounded-lg {{ $iconBg }} flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-church {{ $iconColor }} text-xs"></i>
+                                <i class="fa-solid {{ $icon }} {{ $iconColor }} text-xs"></i>
                             </div>
                             <h3 class="font-bold text-slate-800 text-sm leading-snug">
                                 {{ $activity->name }}

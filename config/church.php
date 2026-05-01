@@ -20,8 +20,8 @@ return [
     ],
 
     'social' => [
-        'whatsapp'  => 'https://wa.me/628XXXXXXXXXX',
-        'instagram' => 'https://www.instagram.com/bbyouthcommunity/',
-        'facebook'  => 'https://facebook.com/gbibethlehem',
+        'whatsapp'  => '#',
+        'instagram' => 'https://www.instagram.com/bethlehembaptisyouth?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
+        'facebook'  => '#',
     ],
 ];

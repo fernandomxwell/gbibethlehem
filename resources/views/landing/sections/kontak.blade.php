@@ -21,7 +21,7 @@
                     <i class="fa-brands fa-instagram text-pink-500 text-3xl group-hover:text-white transition-colors"></i>
                 </div>
                 <h3 class="font-bold text-slate-800 group-hover:text-white mb-1 transition-colors">Instagram</h3>
-                <p class="text-slate-500 text-sm group-hover:text-white/80 transition-colors">@bbyouthcommunity</p>
+                <p class="text-slate-500 text-sm group-hover:text-white/80 transition-colors">@bethlehembaptisyouth</p>
                 <span class="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-pink-500 group-hover:text-white transition-colors">
                     Ikuti Kami <i class="fa-solid fa-arrow-right text-[10px]"></i>
                 </span>

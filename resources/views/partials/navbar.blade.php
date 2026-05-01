@@ -2,10 +2,10 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <a href="#beranda" class="flex items-center gap-2.5 group">
-                <div class="w-9 h-9 rounded-lg bg-primary-600 flex items-center justify-center shadow-md group-hover:bg-primary-500 transition-colors">
-                    <i class="fa-solid fa-cross text-white text-sm"></i>
+                <div class="w-9 h-9 rounded-lg overflow-hidden shadow-md flex-shrink-0">
+                    <img src="/images/logo.png" alt="GBI Bethlehem" class="w-full h-full object-cover">
                 </div>
-                <span id="nav-brand" class="font-bold text-lg text-white transition-colors">{{ config('app.name') }}</span>
+                <span id="nav-brand" class="font-bold text-lg text-white transition-colors"></span>
             </a>
 
             <div class="hidden md:flex items-center gap-1">

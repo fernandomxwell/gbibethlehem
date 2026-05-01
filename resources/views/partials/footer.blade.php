@@ -3,8 +3,8 @@
         <div class="grid md:grid-cols-3 gap-10">
             <div>
                 <div class="flex items-center gap-2.5 mb-4">
-                    <div class="w-9 h-9 rounded-lg bg-primary-600 flex items-center justify-center">
-                        <i class="fa-solid fa-cross text-white text-sm"></i>
+                    <div class="w-9 h-9 rounded-lg overflow-hidden flex-shrink-0">
+                        <img src="/images/logo.png" alt="GBI Bethlehem" class="w-full h-full object-cover">
                     </div>
                     <span class="font-bold text-white text-lg">{{ config('app.name') }}</span>
                 </div>
@@ -64,7 +64,6 @@
 
         <div class="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-primary-500">
             <p>&copy; {{ date('Y') }} {{ config('app.name') }}. Hak Cipta Dilindungi.</p>
-            <p>Dibuat dengan <i class="fa-solid fa-heart text-rose-400 mx-1"></i> untuk kemuliaan Tuhan</p>
         </div>
     </div>
 </footer>

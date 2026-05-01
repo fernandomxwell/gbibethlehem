@@ -39,7 +39,7 @@
         <div class="flex flex-wrap justify-center gap-6">
             @foreach($activities as $activity)
             @php
-                $icons = ['fa-church', 'fa-users', 'fa-star', 'fa-music', 'fa-hands-praying', 'fa-book-bible'];
+                $icons = ['fa-church', 'fa-child-reaching', 'fa-person-praying', 'fa-person-dress', 'fa-hands-holding-child', 'fa-users'];
                 $colorSets = [
                     ['border-primary-400', 'bg-primary-50',  'text-primary-600'],
                     ['border-amber-400',   'bg-amber-50',    'text-amber-600'],
@@ -48,10 +48,10 @@
                     ['border-blue-400',    'bg-blue-50',     'text-blue-600'],
                     ['border-purple-400',  'bg-purple-50',   'text-purple-600'],
                 ];
-                $idx = $loop->index % count($colorSets);
+                $idx = $activity->id % count($colorSets);
                 [$border, $cardBg, $iconColor] = $colorSets[$idx];
                 $bar  = str_replace('border-', 'bg-', $border);
-                $icon = $icons[$idx];
+                $icon = $icons[$activity->id % count($icons)];
             @endphp
 
             {{-- w-full on mobile, 2-col on sm, 3-col on lg — with flex-wrap justify-center the last row stays centered --}}
