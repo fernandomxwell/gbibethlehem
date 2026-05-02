@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\ServiceType;
 use Illuminate\Support\Carbon;
 use RRule\RRule;
 
@@ -10,7 +11,7 @@ class LandingController extends Controller
 {
     public function index()
     {
-        $activities = Activity::get([
+        $activities = Activity::with('serviceTypes')->get([
             'id',
             'name',
             'description',
@@ -25,8 +26,9 @@ class LandingController extends Controller
             ->flatMap(function ($activity) use ($now, $until) {
                 if ($activity->rrule) {
                     $rule  = new RRule($activity->rrule, $activity->start_time->format('Y-m-d H:i:s'));
+                    $tz    = config('app.timezone');
                     $dates = collect($rule->getOccurrencesBetween($now, $until))
-                        ->map(fn($d) => Carbon::instance($d));
+                        ->map(fn($d) => Carbon::instance($d)->setTimezone($tz));
                 } else {
                     $dates = collect([$activity->start_time])
                         ->filter(fn($d) => $d->gte($now));
@@ -39,7 +41,8 @@ class LandingController extends Controller
             ->values();
 
         $stats = [
-            'kegiatan' => Activity::count(),
+            'total_kegiatan' => Activity::count(),
+            'total_pelayanan' => ServiceType::count(),
         ];
 
         return view('landing.index', compact('upcomingSchedules', 'activities', 'stats'));

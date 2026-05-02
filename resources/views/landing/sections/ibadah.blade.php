@@ -35,7 +35,7 @@
                 $activity = $item['activity'];
                 $date     = $item['date'];
 
-                $icons = ['fa-church', 'fa-child-reaching', 'fa-person-praying', 'fa-person-dress', 'fa-hands-holding-child', 'fa-users'];
+                $icons = ['fa-users', 'fa-church', 'fa-child-reaching', 'fa-person-praying', 'fa-person-dress', 'fa-hands-holding-child'];
                 $colorSets = [
                     ['bg-primary-400', 'bg-primary-50',  'text-primary-600',  'bg-primary-100 text-primary-700'],
                     ['bg-amber-400',   'bg-amber-50',    'text-amber-600',    'bg-amber-100 text-amber-700'],

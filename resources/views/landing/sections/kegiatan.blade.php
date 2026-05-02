@@ -18,13 +18,13 @@
         <div class="flex justify-center mb-10 reveal">
             <div class="inline-flex items-center gap-8 bg-slate-50 border border-slate-100 rounded-2xl px-8 py-4">
                 <div class="text-center">
-                    <p class="text-3xl font-black text-primary-600">{{ $activities->count() }}</p>
+                    <p class="text-3xl font-black text-primary-600">{{ $stats['total_kegiatan'] }}</p>
                     <p class="text-xs font-medium text-slate-500 mt-0.5">Jenis Kegiatan</p>
                 </div>
                 <div class="w-px h-10 bg-slate-200"></div>
                 <div class="text-center">
-                    <p class="text-3xl font-black text-primary-600">7</p>
-                    <p class="text-xs font-medium text-slate-500 mt-0.5">Hari Dalam Seminggu</p>
+                    <p class="text-3xl font-black text-primary-600">{{ $stats['total_pelayanan'] }}</p>
+                    <p class="text-xs font-medium text-slate-500 mt-0.5">Jenis Pelayanan</p>
                 </div>
                 <div class="w-px h-10 bg-slate-200"></div>
                 <div class="text-center">
@@ -39,7 +39,7 @@
         <div class="flex flex-wrap justify-center gap-6">
             @foreach($activities as $activity)
             @php
-                $icons = ['fa-church', 'fa-child-reaching', 'fa-person-praying', 'fa-person-dress', 'fa-hands-holding-child', 'fa-users'];
+                $icons = ['fa-users', 'fa-church', 'fa-child-reaching', 'fa-person-praying', 'fa-person-dress', 'fa-hands-holding-child'];
                 $colorSets = [
                     ['border-primary-400', 'bg-primary-50',  'text-primary-600'],
                     ['border-amber-400',   'bg-amber-50',    'text-amber-600'],
@@ -85,6 +85,34 @@
                         </button>
                     </div>
                     @endif
+
+                    @if($activity->serviceTypes->isNotEmpty())
+                    <div class="mt-4 pt-4 border-t border-slate-100">
+                        <button type="button"
+                                class="service-type-toggle w-full flex items-center justify-between gap-2 group"
+                                aria-expanded="false">
+                            <div class="flex items-center gap-1.5 min-w-0">
+                                <i class="fa-solid fa-hands-holding-heart {{ $iconColor }} text-xs flex-shrink-0"></i>
+                                <span class="text-xs font-semibold text-slate-700 leading-snug text-left">
+                                    Terbuka untuk pelayanan
+                                </span>
+                                <span class="text-xs font-medium text-slate-400">({{ $activity->serviceTypes->count() }})</span>
+                            </div>
+                            <i class="service-type-chevron fa-solid fa-chevron-down text-slate-400 text-[10px] flex-shrink-0 transition-transform duration-200"></i>
+                        </button>
+                        <p class="text-[11px] text-slate-400 mt-0.5 leading-snug">
+                            Bergabunglah dan layani bersama kami.
+                        </p>
+                        <div class="service-type-list hidden mt-2 flex flex-wrap gap-1.5">
+                            @foreach($activity->serviceTypes as $type)
+                            <span class="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
+                                <i class="fa-solid fa-tag text-[9px] opacity-60"></i>
+                                {{ $type->name }}
+                            </span>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </div>
             @endforeach
@@ -117,6 +145,16 @@ document.addEventListener('DOMContentLoaded', function () {
         toggle.addEventListener('click', function () {
             var clamped = p.classList.toggle('line-clamp-3');
             toggle.textContent = clamped ? 'Selengkapnya' : 'Lebih sedikit';
+        });
+    });
+
+    document.querySelectorAll('.service-type-toggle').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var list    = btn.closest('.mt-4').querySelector('.service-type-list');
+            var chevron = btn.querySelector('.service-type-chevron');
+            var open    = list.classList.toggle('hidden');
+            chevron.style.transform = open ? '' : 'rotate(180deg)';
+            btn.setAttribute('aria-expanded', open ? 'false' : 'true');
         });
     });
 });
