@@ -1,2 +1,6 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /storage/
+Disallow: /vendor/
+
+Sitemap: https://gbibethlehem.web.id/sitemap.xml

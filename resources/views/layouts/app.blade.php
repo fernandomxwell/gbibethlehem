@@ -4,55 +4,68 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', config('app.name'))</title>
-    <link rel="icon" type="image/x-icon" href="{{ secure_asset('favicon.ico') }}">
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50:  '#eef2ff',
-                            100: '#e0e7ff',
-                            200: '#c7d2fe',
-                            300: '#a5b4fc',
-                            400: '#818cf8',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                            800: '#3730a3',
-                            900: '#312e81',
-                            950: '#1e1b4b',
-                        },
-                        gold: {
-                            400: '#fbbf24',
-                            500: '#f59e0b',
-                            600: '#d97706',
-                        },
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                    },
-                    animation: {
-                        'fade-up': 'fadeUp 0.6s ease-out forwards',
-                    },
-                    keyframes: {
-                        fadeUp: {
-                            '0%':   { opacity: '0', transform: 'translateY(24px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
-                    }
-                }
-            }
-        }
+    <title>@yield('title', config('app.name'))</title>
+    <meta name="description" content="@yield('description', 'GBI Bethlehem — komunitas iman di Jakarta Utara. Jadwal ibadah, kegiatan gereja, dan informasi lokasi. Jl. Jembatan Gambang 2, Penjaringan.')">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('og_title', config('app.name') . ' — Bertumbuh dalam Kasih & Iman')">
+    <meta property="og:description" content="@yield('og_description', 'Komunitas iman yang bertumbuh bersama dalam kasih, persekutuan, dan pelayanan kepada Tuhan dan sesama. Jakarta Utara.')">
+    <meta property="og:image" content="{{ secure_asset('images/og-image.jpg') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:site_name" content="{{ config('app.name') }}">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('og_title', config('app.name'))">
+    <meta name="twitter:description" content="@yield('og_description', 'Komunitas iman yang bertumbuh bersama dalam kasih, persekutuan, dan pelayanan kepada Tuhan dan sesama.')">
+    <meta name="twitter:image" content="{{ secure_asset('images/og-image.jpg') }}">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@@type": "Church",
+        "name": "{{ config('app.name') }}",
+        "url": "{{ url('/') }}",
+        "logo": "{{ secure_asset('images/logo.png') }}",
+        "image": "{{ secure_asset('images/og-image.jpg') }}",
+        "description": "Komunitas iman yang bertumbuh bersama dalam kasih, persekutuan, dan pelayanan kepada Tuhan dan sesama.",
+        "address": {
+            "@@type": "PostalAddress",
+            "streetAddress": "{{ config('church.address.street') }}",
+            "addressLocality": "Jakarta Utara",
+            "addressRegion": "DKI Jakarta",
+            "postalCode": "14450",
+            "addressCountry": "ID"
+        },
+        "geo": {
+            "@@type": "GeoCoordinates",
+            "latitude": -6.1387024,
+            "longitude": 106.7971735
+        },
+        "telephone": "{{ config('church.phone') }}",
+        "email": "{{ config('church.email') }}",
+        "sameAs": [
+            "{{ config('church.social.instagram') }}"
+        ]
+    }
     </script>
+
+    <link rel="icon" type="image/x-icon" href="{{ secure_asset('favicon.ico') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
         .hero-bg {
