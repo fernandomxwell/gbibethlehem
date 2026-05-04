@@ -19,7 +19,7 @@ class LandingController extends Controller
             'rrule'
         ]);
 
-        $now   = now()->startOfDay();
+        $now   = now();
         $until = now()->addMonths(3);
 
         $upcomingSchedules = $activities
