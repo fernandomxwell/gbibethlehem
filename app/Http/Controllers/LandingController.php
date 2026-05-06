@@ -11,13 +11,15 @@ class LandingController extends Controller
 {
     public function index()
     {
-        $activities = Activity::with('serviceTypes')->get([
-            'id',
-            'name',
-            'description',
-            'start_time',
-            'rrule'
-        ]);
+        $activities = Activity::with(['serviceTypes' => fn($q) => $q->orderBy('sort_order')])
+            ->orderBy('sort_order')
+            ->get([
+                'id',
+                'name',
+                'description',
+                'start_time',
+                'rrule',
+            ]);
 
         $now   = now();
         $until = now()->addMonths(3);
