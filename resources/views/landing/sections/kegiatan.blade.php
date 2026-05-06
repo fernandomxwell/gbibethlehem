@@ -34,10 +34,10 @@
             </div>
         </div>
 
-        @if($activities->isNotEmpty())
+        @if($recurringActivities->isNotEmpty())
         {{-- Flex-wrap with justify-center so odd last row stays centered --}}
         <div class="flex flex-wrap justify-center gap-6">
-            @foreach($activities as $activity)
+            @foreach($recurringActivities as $activity)
             @php
                 $icons = ['fa-users', 'fa-church', 'fa-child-reaching', 'fa-person-praying', 'fa-person-dress', 'fa-hands-holding-child'];
                 $colorSets = [
@@ -122,9 +122,9 @@
             <div class="w-16 h-16 bg-primary-50 rounded-full flex items-center justify-center mx-auto mb-4">
                 <i class="fa-solid fa-church text-primary-400 text-2xl"></i>
             </div>
-            <h3 class="font-semibold text-slate-700 mb-2">Kegiatan Belum Tersedia</h3>
+            <h3 class="font-semibold text-slate-700 mb-2">Kegiatan Rutin Belum Tersedia</h3>
             <p class="text-slate-400 text-sm max-w-xs mx-auto">
-                Informasi kegiatan gereja akan segera ditampilkan.
+                Informasi kegiatan rutin gereja akan segera ditampilkan.
             </p>
         </div>
         @endif

@@ -40,11 +40,13 @@ class LandingController extends Controller
             ->take(9)
             ->values();
 
+        $recurringActivities = $activities->filter(fn($a) => !empty($a->rrule))->values();
+
         $stats = [
-            'total_kegiatan' => Activity::count(),
+            'total_kegiatan' => $recurringActivities->count(),
             'total_pelayanan' => ServiceType::count(),
         ];
 
-        return view('landing.index', compact('upcomingSchedules', 'activities', 'stats'));
+        return view('landing.index', compact('upcomingSchedules', 'activities', 'recurringActivities', 'stats'));
     }
 }
