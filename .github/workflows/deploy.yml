@@ -88,5 +88,9 @@ jobs:
             echo "DB_PASSWORD=${{ secrets[format('DB_PASSWORD_{0}', env.APP_ENV)] }}" >> .env
 
             # Build docker image
-            docker build -t ${{ secrets[format('DOCKER_IMAGE_NAME_{0}', env.APP_ENV)] }} .
+            DOCKER_IMAGE_NAME="${{ secrets[format('DOCKER_IMAGE_NAME_{0}', env.APP_ENV)] }}"
+            if [ -z "$DOCKER_IMAGE_NAME" ]; then
+              echo "Error: DOCKER_IMAGE_NAME secret is not set for ${{ env.APP_ENV }}" && exit 1
+            fi
+            docker build -t "$DOCKER_IMAGE_NAME" .
           EOF
