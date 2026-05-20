@@ -1,0 +1,89 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+      - development
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Determine environment based on branch
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "APP_ENV=PRD" >> $GITHUB_ENV
+          else
+            echo "APP_ENV=DEV" >> $GITHUB_ENV
+          fi
+
+      - name: Install sshpass
+        if: vars[format('USE_SSH_KEY_{0}', env.APP_ENV)] != 'true'
+        run: sudo apt-get install -y sshpass
+
+      - name: Set up SSH Key
+        if: vars[format('USE_SSH_KEY_{0}', env.APP_ENV)] == 'true'
+        run: |
+          echo "${{ secrets[format('SSH_PRIVATE_KEY_{0}', env.APP_ENV)] }}" > deploy_key.pem
+          chmod 600 deploy_key.pem
+
+      - name: Deploy to VPS
+        env:
+          SSH_HOST: ${{ secrets[format('SSH_HOST_{0}', env.APP_ENV)] }}
+          SSH_USER: ${{ secrets[format('SSH_USER_{0}', env.APP_ENV)] }}
+          SSH_PASSWORD: ${{ secrets[format('SSH_PASSWORD_{0}', env.APP_ENV)] }}
+          USE_SSH_KEY: ${{ vars[format('USE_SSH_KEY_{0}', env.APP_ENV)] }}
+        run: |
+          # Determine SSH connection method
+          if [[ "$USE_SSH_KEY" == "true" ]]; then
+            SSH_CMD=$(echo "ssh -i deploy_key.pem -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST" | envsubst)
+          else
+            SSH_CMD=$(echo "sshpass -p \"$SSH_PASSWORD\" ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST" | envsubst)
+          fi
+
+          eval "$SSH_CMD" << 'EOF'
+            # Define the path to the application
+            APP_PATH="${{ secrets[format('APP_DIR_{0}', env.APP_ENV)] }}"
+
+            # Check if the directory exists, if not, create it
+            if [ ! -d "$APP_PATH" ]; then
+              echo "Directory does not exist. Creating it now."
+              mkdir -p "$APP_PATH"
+            fi
+
+            # Navigate to the directory
+            cd "$APP_PATH"
+
+            # Define the git repository
+            GIT_REPO="https://${{ secrets.GIT_PAT }}:x-oauth-basic@github.com/${{ github.repository }}.git"
+
+            # Check if the directory contains a git repository
+            if [ ! -d ".git" ]; then
+              echo "No Git repository found. Cloning repository."
+              git clone "$GIT_REPO" .
+            else
+              echo "Git repository found. Pulling latest changes."
+              git remote set-url origin "$GIT_REPO"
+              git pull origin ${{ github.ref_name }}
+            fi
+
+            git checkout ${{ github.ref_name }}
+
+            cp .env.${{ env.APP_ENV }} .env
+
+            # Inject value to .env
+            echo -e "\n\n# Injected value" >> .env
+
+            echo "APP_KEY=${{ secrets[format('APP_KEY_{0}', env.APP_ENV)] }}" >> .env
+            echo "APP_URL=${{ vars[format('APP_URL_{0}', env.APP_ENV)] }}" >> .env
+
+            echo "DB_HOST=${{ secrets[format('DB_HOST_{0}', env.APP_ENV)] }}" >> .env
+            echo "DB_PORT=${{ secrets[format('DB_PORT_{0}', env.APP_ENV)] }}" >> .env
+            echo "DB_USERNAME=${{ secrets[format('DB_USERNAME_{0}', env.APP_ENV)] }}" >> .env
+            echo "DB_PASSWORD=${{ secrets[format('DB_PASSWORD_{0}', env.APP_ENV)] }}" >> .env
+          EOF
