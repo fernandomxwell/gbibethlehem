@@ -86,4 +86,7 @@ jobs:
             echo "DB_PORT=${{ secrets[format('DB_PORT_{0}', env.APP_ENV)] }}" >> .env
             echo "DB_USERNAME=${{ secrets[format('DB_USERNAME_{0}', env.APP_ENV)] }}" >> .env
             echo "DB_PASSWORD=${{ secrets[format('DB_PASSWORD_{0}', env.APP_ENV)] }}" >> .env
+
+            # Build docker image
+            docker build -t ${{ secrets[format('DOCKER_IMAGE_NAME_{0}', env.APP_ENV)] }} .
           EOF
